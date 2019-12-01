@@ -1,21 +1,11 @@
-# Advent
+# Advent of Code 2019
 
-**TODO: Add description**
+My Elixir solutions for the [Advent of Code 2019](http://adventofcode.com/2019).
 
-## Installation
+## Benchmarks
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `advent` to your list of dependencies in `mix.exs`:
+If you're curious how long each of my solutions roughly takes to run.
 
-```elixir
-def deps do
-  [
-    {:advent, "~> 0.1.0"}
-  ]
-end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/advent](https://hexdocs.pm/advent).
-
+No solutions yet!
+```
