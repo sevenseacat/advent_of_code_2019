@@ -6,6 +6,24 @@ defmodule Day2 do
     |> hd
   end
 
+  def part2(input) do
+    # I think this can be done more simply with comprehensions, I just don't know how.
+    opts = for noun <- 0..99, verb <- 0..99, do: {noun, verb}
+
+    {noun, verb} =
+      Enum.find(opts, fn {noun, verb} ->
+        result =
+          input
+          |> seed_program(noun, verb)
+          |> run_program
+          |> hd
+
+        result == 19_690_720
+      end)
+
+    100 * noun + verb
+  end
+
   defp seed_program(list, noun, verb) do
     list
     |> List.replace_at(1, noun)
@@ -55,7 +73,8 @@ defmodule Day2 do
   def bench do
     Benchee.run(
       %{
-        "day 2, part 1" => fn -> Advent.data(2) |> parse_input |> part1() end
+        "day 2, part 1" => fn -> Advent.data(2) |> parse_input |> part1() end,
+        "day 2, part 2" => fn -> Advent.data(2) |> parse_input |> part2() end
       },
       Application.get_env(:advent, :benchee)
     )

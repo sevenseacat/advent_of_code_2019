@@ -12,5 +12,6 @@ day 1, part 1       14.52 K       68.88 μs    ±52.02%       57.98 μs      151
 day 1, part 2        9.81 K      101.89 μs    ±23.14%       91.98 μs      174.98 μs
 
 Name                    ips        average  deviation         median         99th %
-day 2, part 1        3.56 K      280.76 μs   ±137.82%         261 μs         471 μs
+day 2, part 1        4.06 K      0.00025 s    ±10.80%      0.00025 s      0.00032 s
+day 2, part 2     0.00075 K         1.33 s     ±0.32%         1.33 s         1.33 s
 ```
