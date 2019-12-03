@@ -18,4 +18,10 @@ defmodule Day3Test do
       assert Day3.part1(@sample_input_small) == 6
     end
   end
+
+  describe "part2/1" do
+    test "it works for small sample input" do
+      assert Day3.part2(@sample_input_small) == 30
+    end
+  end
 end
