@@ -47,7 +47,19 @@ defmodule Day7 do
 
     Amplifier.send_input("A", 0)
 
-    :timer.sleep(5000)
+    check_for_result("A")
+  end
+
+  defp check_for_result(amp) do
+    case Amplifier.check_for_result(amp) do
+      nil ->
+        :timer.sleep(1)
+        check_for_result(amp)
+
+      val ->
+        Enum.map(["A", "B", "C", "D", "E"], fn a -> Amplifier.stop(a) end)
+        val
+    end
   end
 
   # https://rosettacode.org/wiki/Permutations#Elixir
@@ -90,16 +102,29 @@ defmodule Day7.Amplifier do
     )
   end
 
+  def check_for_result(amp) do
+    GenServer.call({:global, amp}, :check_for_result)
+  end
+
   def send_input(amp, input) do
     GenServer.cast({:global, amp}, {:input, input})
   end
 
+  def stop(amp) do
+    GenServer.stop({:global, amp})
+  end
+
   def init(state), do: {:ok, state}
 
-  def handle_cast({:input, input}, :halted) do
+  def handle_call(:check_for_result, _, {:halted, val} = state) when val != nil do
+    {:reply, val, state}
+  end
+
+  def handle_call(:check_for_result, _, state), do: {:reply, nil, state}
+
+  def handle_cast({:input, input}, {:halted, nil}) do
     # This is what should go to the thruster!
-    IO.puts(input)
-    {:noreply, nil}
+    {:noreply, {:halted, input}}
   end
 
   def handle_cast({:input, input}, %{
@@ -112,7 +137,7 @@ defmodule Day7.Amplifier do
     case Day5.run_program(program, inputs ++ [input], position) do
       {:halt, {_program, outputs}} ->
         Enum.each(outputs, fn o -> Amplifier.send_input(target, o) end)
-        {:noreply, :halted}
+        {:noreply, {:halted, nil}}
 
       {:pause, {program, outputs, position}} ->
         Enum.each(outputs, fn o -> Amplifier.send_input(target, o) end)
