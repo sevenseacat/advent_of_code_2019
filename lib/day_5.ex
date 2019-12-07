@@ -1,15 +1,15 @@
 defmodule Day5 do
   def part1(program, input) do
-    run_program(program, input)
+    run_program(program, List.wrap(input))
     |> elem(1)
   end
 
   def part2(program, input) do
-    run_program(program, input)
+    run_program(program, List.wrap(input))
     |> elem(1)
   end
 
-  def run_program(array, input \\ nil, pos \\ 0, outputs \\ []) do
+  def run_program(array, input \\ [], pos \\ 0, outputs \\ []) do
     raw_opcode = :array.get(pos, array)
 
     modes =
@@ -27,7 +27,8 @@ defmodule Day5 do
         calc(&Kernel.*/2, array, pos, modes) |> run_program(input, pos + 4, outputs)
 
       3 ->
-        assign(array, pos, input) |> run_program(input, pos + 2, outputs)
+        [h | t] = input
+        assign(array, pos, h) |> run_program(t, pos + 2, outputs)
 
       4 ->
         {array, outputs} = output(array, pos, modes, outputs)
