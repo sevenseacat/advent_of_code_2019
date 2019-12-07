@@ -1,12 +1,12 @@
 defmodule Day5 do
   def part1(program, input) do
-    run_program(program, List.wrap(input))
-    |> elem(1)
+    {:halt, {_program, outputs}} = run_program(program, List.wrap(input))
+    outputs
   end
 
   def part2(program, input) do
-    run_program(program, List.wrap(input))
-    |> elem(1)
+    {:halt, {_program, outputs}} = run_program(program, List.wrap(input))
+    outputs
   end
 
   def run_program(array, input \\ [], pos \\ 0, outputs \\ []) do
@@ -27,8 +27,14 @@ defmodule Day5 do
         calc(&Kernel.*/2, array, pos, modes) |> run_program(input, pos + 4, outputs)
 
       3 ->
-        [h | t] = input
-        assign(array, pos, h) |> run_program(t, pos + 2, outputs)
+        case input do
+          [h | t] ->
+            assign(array, pos, h) |> run_program(t, pos + 2, outputs)
+
+          [] ->
+            # Wait for more inputs. Stop running for now. (Day 7)
+            {:pause, {array, Enum.reverse(outputs), pos}}
+        end
 
       4 ->
         {array, outputs} = output(array, pos, modes, outputs)
@@ -49,7 +55,7 @@ defmodule Day5 do
         comparison(&Kernel.==/2, array, pos, modes) |> run_program(input, pos + 4, outputs)
 
       99 ->
-        {:array.to_list(array), Enum.reverse(outputs)}
+        {:halt, {:array.to_list(array), Enum.reverse(outputs)}}
 
       val ->
         {:error, "'#{val}' at position #{pos} does not match a valid opcode"}
