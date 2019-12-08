@@ -18,6 +18,45 @@ defmodule Day8 do
     Map.get(layer, "1") * Map.get(layer, "2")
   end
 
+  @doc """
+  iex> Day8.part2(["0","2","2","2","1","1","2","2","2","2","1","2","0","0","0","0"], 2, 2)
+  ["0","1","1","0"]
+  """
+  def part2(input, width \\ @width, height \\ @height) do
+    layer_size = width * height
+
+    input
+    |> Enum.chunk_every(layer_size)
+    |> transpose
+    |> Enum.map(&find_colour/1)
+  end
+
+  def display_image(list, width \\ @width) do
+    list
+    |> Enum.chunk_every(width)
+    |> Enum.each(&to_image_line/1)
+  end
+
+  defp to_image_line(line) do
+    line
+    |> Enum.map(&to_pixel/1)
+    |> IO.puts()
+  end
+
+  defp to_pixel("1"), do: "."
+  defp to_pixel("0"), do: "X"
+
+  # https://stackoverflow.com/a/42887944/560215
+  defp transpose(rows) do
+    rows
+    |> List.zip()
+    |> Enum.map(&Tuple.to_list/1)
+  end
+
+  defp find_colour(list) do
+    Enum.find(list, &(&1 != "2"))
+  end
+
   def parse_input(data) do
     data
     |> String.trim()
@@ -32,7 +71,8 @@ defmodule Day8 do
   def bench do
     Benchee.run(
       %{
-        "day 8, part 1" => fn -> Advent.data(8) |> parse_input |> part1() end
+        "day 8, part 1" => fn -> Advent.data(8) |> parse_input |> part1() end,
+        "day 8, part 2" => fn -> Advent.data(8) |> parse_input |> part2() end
       },
       Application.get_env(:advent, :benchee)
     )
