@@ -5,4 +5,5 @@ defmodule AdventTest do
   doctest Day4
   doctest Day7
   doctest Day8
+  doctest Day9
 end
