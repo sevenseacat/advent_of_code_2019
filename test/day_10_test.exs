@@ -6,26 +6,27 @@ defmodule Day10Test do
 
   describe "part1/1" do
     test "sample input 1" do
-      assert {{3, 4}, 8} == Day10.part1(@sample_input_1)
+      input = Day10.parse_input(@sample_input_1)
+      assert {{3, 4}, 8} == Day10.part1(input)
     end
 
     test "sample input 2" do
-      input = Advent.test_data("day_10_sample_2")
+      input = Advent.test_data("day_10_sample_2") |> Day10.parse_input()
       assert {{5, 8}, 33} == Day10.part1(input)
     end
 
     test "sample input 3" do
-      input = Advent.test_data("day_10_sample_3")
+      input = Advent.test_data("day_10_sample_3") |> Day10.parse_input()
       assert {{1, 2}, 35} == Day10.part1(input)
     end
 
     test "sample input 4" do
-      input = Advent.test_data("day_10_sample_4")
+      input = Advent.test_data("day_10_sample_4") |> Day10.parse_input()
       assert {{6, 3}, 41} == Day10.part1(input)
     end
 
     test "sample input 5" do
-      input = Advent.test_data("day_10_sample_5")
+      input = Advent.test_data("day_10_sample_5") |> Day10.parse_input()
       assert {{11, 13}, 210} == Day10.part1(input)
     end
   end
@@ -73,6 +74,26 @@ defmodule Day10Test do
 
     test "position 10 in sample input 1" do
       assert 7 == Day10.seen_count(parsed_sample(), {4, 4})
+    end
+  end
+
+  describe "part2/1" do
+    test "fire the lazorrrrrr" do
+      input = Advent.test_data("day_10_sample_6") |> Day10.parse_input()
+
+      order_of_destruction = [
+        [8, 1],
+        [9, 0],
+        [9, 1],
+        [10, 0],
+        [9, 2],
+        [11, 1],
+        [12, 1],
+        [11, 2],
+        [15, 1]
+      ]
+
+      assert order_of_destruction == Day10.part2(input) |> Enum.take(9)
     end
   end
 end

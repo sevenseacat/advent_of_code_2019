@@ -1,10 +1,12 @@
 defmodule Day10 do
-  def part1(input) do
-    set = parse_input(input)
-
+  def part1(set) do
     set
     |> Enum.map(fn coord -> {coord, seen_count(set, coord)} end)
     |> Enum.max_by(fn {_, seen} -> seen end)
+  end
+
+  def part2(set) do
+    laser = part1(set) |> elem(0) |> IO.inspect()
   end
 
   # How many asteroids can be seen from a given asteroid position?
@@ -73,7 +75,7 @@ defmodule Day10 do
   def bench do
     Benchee.run(
       %{
-        "day 10, part 1" => fn -> Advent.data(10) |> part1() end
+        "day 10, part 1" => fn -> Advent.data(10) |> parse_input |> part1() end
       },
       Application.get_env(:advent, :benchee)
     )
