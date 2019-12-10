@@ -8,16 +8,16 @@ defmodule Day10 do
   def part2(set) do
     {x, y} =
       set
-      |> run_laser_simulation()
+      |> run_laser_simulation(MapSet.size(set) - 1)
       |> Enum.at(199)
 
     x * 100 + y
   end
 
-  def run_laser_simulation(set) do
+  def run_laser_simulation(set, times \\ 1) do
     laser = part1(set) |> elem(0)
 
-    Enum.reduce(1..MapSet.size(set), {set, 0, []}, fn _count, {set, angle, already_gone} ->
+    Enum.reduce(1..times, {set, -0.000000001, []}, fn _count, {set, angle, already_gone} ->
       {new_set, new_angle, destroyed} = fire_laser(laser, angle, set)
       {new_set, new_angle, [destroyed | already_gone]}
     end)
@@ -25,10 +25,37 @@ defmodule Day10 do
     |> Enum.reverse()
   end
 
-  defp fire_laser({x, y} = position, angle, set) do
-    targets = seen_asteroids(set, position)
+  defp fire_laser({x1, y1}, angle, set) do
+    targets = seen_asteroids(set, {x1, y1})
 
-    {set, angle, position}
+    targets_and_angles =
+      Enum.map(targets, fn {x2, y2} ->
+        # https://math.stackexchange.com/a/2587852 converted to degrees in the position we want
+        {{x2, y2}, :math.atan2(y2 - y1, x2 - x1) * 180 / :math.pi() + 90}
+      end)
+
+    {pos, angle} = find_best_target({x1, y1}, targets_and_angles, angle)
+    {MapSet.delete(set, pos), angle, pos}
+  end
+
+  defp find_best_target({x1, y1}, targets, angle) do
+    # To cover rotation past 360, duplicate the set and give them angles of +360
+    possibles =
+      (targets ++ Enum.map(targets, fn {coord, angle} -> {coord, angle + 360} end))
+      |> Enum.filter(fn {_, a} -> a > angle end)
+
+    winning_angle = Enum.min_by(possibles, fn {_, angle} -> angle end) |> elem(1)
+
+    winning_target =
+      possibles
+      |> Enum.filter(fn {_, angle} -> angle == winning_angle end)
+      |> Enum.min_by(fn {{x2, y2}, _} -> abs(x1 - x2) + abs(y1 - y2) end)
+      |> elem(0)
+
+    winning_angle = if winning_angle >= 360, do: winning_angle - 360, else: winning_angle
+    winning_angle = if winning_angle >= 360, do: winning_angle - 360, else: winning_angle
+
+    {winning_target, winning_angle}
   end
 
   # How many asteroids can be seen from a given asteroid position?
@@ -101,7 +128,8 @@ defmodule Day10 do
   def bench do
     Benchee.run(
       %{
-        "day 10, part 1" => fn -> Advent.data(10) |> parse_input |> part1() end
+        "day 10, part 1" => fn -> Advent.data(10) |> parse_input |> part1() end,
+        "day 10, part 2" => fn -> Advent.data(10) |> parse_input |> part2() end
       },
       Application.get_env(:advent, :benchee)
     )

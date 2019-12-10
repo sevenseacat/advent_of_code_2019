@@ -101,12 +101,12 @@ defmodule Day10Test do
         {15, 1}
       ]
 
-      assert order_of_destruction == Day10.run_laser_simulation(input) |> Enum.take(9)
+      assert order_of_destruction == Day10.run_laser_simulation(input, 9)
     end
 
     test "large input from part 1" do
       input = Advent.test_data("day_10_sample_5") |> Day10.parse_input()
-      order_of_destruction = Day10.run_laser_simulation(input)
+      order_of_destruction = Day10.run_laser_simulation(input, 299)
 
       # Remember zero-indexing
       assert {11, 12} == Enum.at(order_of_destruction, 0)
