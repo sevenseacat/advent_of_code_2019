@@ -29,7 +29,7 @@ defmodule Day5 do
 
           [] ->
             # Wait for more inputs. Stop running for now. (Day 7)
-            {:pause, {array, Enum.reverse(outputs), pos}}
+            {:pause, {array, Enum.reverse(outputs), pos, base}}
         end
 
       4 ->
