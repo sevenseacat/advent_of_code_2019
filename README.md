@@ -46,4 +46,7 @@ day 9, part 2     0.00164 K      609.33 ms     ±0.95%      608.32 ms      616.8
 Name                     ips        average  deviation         median         99th %
 day 10, part 1          1.91      524.45 ms     ±0.92%      523.78 ms      530.92 ms
 day 10, part 2          1.24      809.45 ms     ±0.92%      808.43 ms      823.88 ms
+
+Name                     ips        average  deviation         median         99th %
+day 11, part 1          5.71      175.27 ms    ±18.12%      164.50 ms      295.82 ms
 ```
