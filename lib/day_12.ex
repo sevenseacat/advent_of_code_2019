@@ -137,7 +137,8 @@ defmodule Day12 do
   def bench do
     Benchee.run(
       %{
-        "day 12, part 1" => fn -> part1() end
+        "day 12, part 1" => fn -> part1() end,
+        "day 12, part 2" => fn -> part2() end
       },
       Application.get_env(:advent, :benchee)
     )
