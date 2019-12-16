@@ -1,6 +1,6 @@
 defmodule Day13 do
   def part1(input) do
-    {:halt, {_program, outputs}} = Day5.run_program(input)
+    outputs = Intcode.new(input) |> Intcode.run() |> Intcode.outputs()
 
     outputs
     |> Enum.chunk_every(3)
@@ -10,7 +10,9 @@ defmodule Day13 do
   def bench do
     Benchee.run(
       %{
-        "day 13, part 1" => fn -> Advent.data(13) |> Day5.parse_input() |> part1() end
+        "day 13, part 1" => fn ->
+          Advent.data(13) |> Intcode.from_string() |> part1()
+        end
       },
       Application.get_env(:advent, :benchee)
     )

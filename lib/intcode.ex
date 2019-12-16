@@ -157,6 +157,10 @@ defmodule Intcode do
     Map.put(intcode, :debug, true)
   end
 
+  def add_input(intcode, input) do
+    Map.update!(intcode, :inputs, fn i -> i ++ [input] end)
+  end
+
   defp add_output(intcode, output) do
     Map.update!(intcode, :outputs, fn o -> [output | o] end)
   end
@@ -187,8 +191,14 @@ defmodule Intcode do
     Map.put(intcode, :status, status)
   end
 
+  # Return and clear outputs in one fell swoop.
+  def pop_outputs(intcode) do
+    {outputs(intcode), Map.put(intcode, :outputs, [])}
+  end
+
   # Accessors
   def outputs(%Intcode{outputs: outputs}), do: Enum.reverse(outputs)
+  def status(%Intcode{status: status}), do: status
 
   def from_string(string) do
     string

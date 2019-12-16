@@ -97,7 +97,7 @@ defmodule Day7.Amplifier do
   def start_link(id, target, setting, program) do
     GenServer.start_link(
       __MODULE__,
-      %{id: id, position: 0, target: target, inputs: [setting], program: program},
+      %{id: id, target: target, intcode: Intcode.new(program, [setting])},
       name: {:global, id}
     )
   end
@@ -127,21 +127,22 @@ defmodule Day7.Amplifier do
     {:noreply, {:halted, input}}
   end
 
-  def handle_cast({:input, input}, %{
-        id: id,
-        target: target,
-        inputs: inputs,
-        program: program,
-        position: position
-      }) do
-    case Day5.run_program(program, inputs ++ [input], position) do
-      {:halt, {_program, outputs}} ->
-        Enum.each(outputs, fn o -> Amplifier.send_input(target, o) end)
+  def handle_cast({:input, input}, %{id: id, target: target, intcode: intcode}) do
+    intcode =
+      intcode
+      |> Intcode.add_input(input)
+      |> Intcode.run()
+
+    case Intcode.status(intcode) do
+      :halted ->
+        Enum.each(Intcode.outputs(intcode), fn o -> Amplifier.send_input(target, o) end)
         {:noreply, {:halted, nil}}
 
-      {:pause, {program, outputs, position, _base}} ->
+      :paused ->
+        {outputs, intcode} = Intcode.pop_outputs(intcode)
+
         Enum.each(outputs, fn o -> Amplifier.send_input(target, o) end)
-        {:noreply, %{id: id, inputs: [], program: program, target: target, position: position}}
+        {:noreply, %{id: id, target: target, intcode: intcode}}
     end
   end
 end

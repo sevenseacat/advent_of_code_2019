@@ -1,11 +1,11 @@
 defmodule Day11 do
-  def part1(array) do
-    do_paint(array, {Map.new(), {0, 0}}, 0, :up, 0, 0)
+  def part1(intcode) do
+    do_paint(intcode, {Map.new(), {0, 0}}, 0, :up)
     |> map_size()
   end
 
-  def part2(array) do
-    do_paint(array, {Map.new(), {0, 0}}, 1, :up, 0, 0)
+  def part2(intcode) do
+    do_paint(intcode, {Map.new(), {0, 0}}, 1, :up)
     |> visualize()
   end
 
@@ -29,16 +29,23 @@ defmodule Day11 do
   defp to_pixel(1), do: "."
   defp to_pixel(0), do: "X"
 
-  defp do_paint(array, {canvas, position}, input, dir, intcode_pos, base) do
-    case Day5.run_program(array, [input], intcode_pos, [], base) do
-      {:pause, {array, [color, turn_dir], intcode_pos, base}} ->
+  defp do_paint(intcode, {canvas, position}, input, dir) do
+    intcode =
+      intcode
+      |> Intcode.add_input(input)
+      |> Intcode.run()
+
+    case Intcode.status(intcode) do
+      :paused ->
+        {[color, turn_dir], intcode} = Intcode.pop_outputs(intcode)
+
         # Update canvas and get new input
         canvas = Map.put(canvas, position, color)
         {new_position, new_dir} = turn_and_move(position, dir, turn_dir)
         new_colour = Map.get(canvas, new_position, 0)
-        do_paint(array, {canvas, new_position}, new_colour, new_dir, intcode_pos, base)
+        do_paint(intcode, {canvas, new_position}, new_colour, new_dir)
 
-      {:halt, _} ->
+      :halted ->
         canvas
     end
   end
@@ -64,8 +71,12 @@ defmodule Day11 do
   def bench do
     Benchee.run(
       %{
-        "day 11, part 1" => fn -> Advent.data(11) |> Day5.parse_input() |> part1() end,
-        "day 11, part 2" => fn -> Advent.data(11) |> Day5.parse_input() |> part2() end
+        "day 11, part 1" => fn ->
+          Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part1()
+        end,
+        "day 11, part 2" => fn ->
+          Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part2()
+        end
       },
       Application.get_env(:advent, :benchee)
     )
