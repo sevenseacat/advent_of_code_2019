@@ -1,4 +1,6 @@
 defmodule Day6 do
+  use Advent.Day, no: 6
+
   def part1(input) do
     input
     |> parse_input
@@ -48,15 +50,6 @@ defmodule Day6 do
     |> Enum.map(fn orbit -> String.split(orbit, ")") end)
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 6, part 1" => fn -> Advent.data(6) |> part1() end,
-        "day 6, part 2" => fn -> Advent.data(6) |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(6) |> part1()
+  def part2_verify, do: Advent.data(6) |> part2()
 end

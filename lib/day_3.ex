@@ -1,4 +1,6 @@
 defmodule Day3 do
+  use Advent.Day, no: 3
+
   def part1(wires) do
     wires
     |> all_coords
@@ -71,15 +73,6 @@ defmodule Day3 do
     {dir, String.to_integer(dist)}
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 3, part 1" => fn -> Advent.data(3) |> parse_input |> part1() end,
-        "day 3, part 2" => fn -> Advent.data(3) |> parse_input |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(3) |> parse_input |> part1()
+  def part2_verify, do: Advent.data(3) |> parse_input |> part2()
 end

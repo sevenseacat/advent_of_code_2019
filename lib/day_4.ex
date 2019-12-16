@@ -1,4 +1,6 @@
 defmodule Day4 do
+  use Advent.Day, no: 4
+
   @input 197_487..673_251
 
   def part1(range \\ @input) do
@@ -56,15 +58,6 @@ defmodule Day4 do
   defp no_decreases?([a, b | rest]) when a <= b, do: no_decreases?([b | rest])
   defp no_decreases?(_), do: false
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 4, part 1" => fn -> part1() end,
-        "day 4, part 2" => fn -> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: part1()
+  def part2_verify, do: part2()
 end

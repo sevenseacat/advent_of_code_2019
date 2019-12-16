@@ -1,4 +1,6 @@
 defmodule Day7 do
+  use Advent.Day, no: 7
+
   alias Day7.Amplifier
 
   def part1(input), do: do_parts(input, 0..4)
@@ -77,17 +79,8 @@ defmodule Day7 do
     |> :array.from_list()
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 7, part 1" => fn -> Advent.data(7) |> part1() end,
-        "day 7, part 2" => fn -> Advent.data(7) |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(7) |> part1()
+  def part2_verify, do: Advent.data(7) |> part2()
 end
 
 defmodule Day7.Amplifier do

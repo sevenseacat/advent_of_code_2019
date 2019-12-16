@@ -39,6 +39,8 @@ defmodule Day12.Moon do
 end
 
 defmodule Day12 do
+  use Advent.Day, no: 12
+
   alias Day12.Moon
   import Advent, only: [permutations: 2]
 
@@ -147,15 +149,6 @@ defmodule Day12 do
     end)
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 12, part 1" => fn -> part1() end,
-        "day 12, part 2" => fn -> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: part1()
+  def part2_verify, do: part2()
 end

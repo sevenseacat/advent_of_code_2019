@@ -8,50 +8,50 @@ If you're curious how long each of my solutions roughly takes to run.
 
 ```
 Name                    ips        average  deviation         median         99th %
-day 1, part 1       14.52 K       68.88 μs    ±52.02%       57.98 μs      151.98 μs
-day 1, part 2        9.81 K      101.89 μs    ±23.14%       91.98 μs      174.98 μs
+day 1, part 1       16.66 K       60.02 μs    ±23.83%          58 μs         108 μs
+day 1, part 2       10.18 K       98.22 μs    ±19.35%          89 μs         163 μs
 
 Name                    ips        average  deviation         median         99th %
-day 2, part 1        9.47 K       0.106 ms    ±38.54%      0.0910 ms       0.197 ms
-day 2, part 2     0.00439 K      227.83 ms     ±1.37%      226.45 ms      237.12 ms
+day 2, part 1        9.91 K       0.101 ms   ±160.36%      0.0910 ms        0.20 ms
+day 2, part 2     0.00416 K      240.21 ms     ±5.67%      236.01 ms      287.64 ms
 
 Name                    ips        average  deviation         median         99th %
-day 3, part 1          5.87      170.35 ms    ±18.56%      166.17 ms      271.10 ms
-day 3, part 2          2.91      343.39 ms    ±17.12%      330.13 ms      555.21 ms
+day 3, part 1          7.35      136.01 ms     ±5.78%      136.75 ms      147.78 ms
+day 3, part 2          3.16      316.87 ms    ±15.59%      304.68 ms      501.11 ms
 
 Name                    ips        average  deviation         median         99th %
-day 4, part 1          3.38      295.73 ms     ±2.05%      293.93 ms      308.80 ms
-day 4, part 2          3.41      292.86 ms     ±2.12%      290.90 ms      308.38 ms
+day 4, part 1          3.25      307.54 ms    ±10.39%      295.99 ms      418.71 ms
+day 4, part 2          3.42      292.80 ms     ±1.29%      292.89 ms      301.06 ms
 
 Name                    ips        average  deviation         median         99th %
-day 5, part 1        3.36 K      297.32 μs   ±152.26%      266.98 μs      520.53 μs
-day 5, part 2        2.95 K      339.38 μs   ±123.92%      311.98 μs      722.38 μs
+day 5, part 1        3.32 K      301.13 μs    ±11.47%         299 μs         407 μs
+day 5, part 2        2.74 K      364.38 μs     ±8.16%         359 μs      509.68 μs
 
 Name                    ips        average  deviation         median         99th %
-day 6, part 1          8.54      117.03 ms    ±27.05%      105.27 ms      247.30 ms
-day 6, part 2         66.72       14.99 ms    ±98.02%       11.72 ms       70.57 ms
+day 6, part 1         10.73       93.24 ms     ±2.44%       92.75 ms      103.13 ms
+day 6, part 2         91.11       10.98 ms     ±5.82%       10.95 ms       14.39 ms
 
 Name                    ips        average  deviation         median         99th %
-day 7, part 1          3.98      251.33 ms     ±5.14%      246.52 ms      288.26 ms
-day 7, part 2          3.74      267.47 ms     ±7.22%      263.70 ms      314.89 ms
+day 7, part 1          3.71      269.89 ms     ±8.19%      274.18 ms      301.65 ms
+day 7, part 2          4.06      246.28 ms     ±2.09%      245.96 ms      256.97 ms
 
 Name                    ips        average  deviation         median         99th %
-day 8, part 1        153.99        6.49 ms    ±25.11%        5.83 ms       11.78 ms
-day 8, part 2        173.12        5.78 ms    ±37.52%        4.37 ms       12.13 ms
+day 8, part 1        128.46        7.78 ms    ±41.45%        6.83 ms       22.97 ms
+day 8, part 2        151.68        6.59 ms    ±36.93%        5.14 ms       12.06 ms
 
 Name                    ips        average  deviation         median         99th %
-day 9, part 1        1.80 K        0.56 ms    ±13.23%        0.55 ms        0.81 ms
-day 9, part 2     0.00164 K      609.33 ms     ±0.95%      608.32 ms      616.88 ms
+day 9, part 1        1.69 K        0.59 ms    ±10.70%        0.57 ms        0.84 ms
+day 9, part 2     0.00136 K      737.58 ms     ±0.66%      737.10 ms      746.55 ms
 
 Name                     ips        average  deviation         median         99th %
-day 10, part 1          1.91      524.45 ms     ±0.92%      523.78 ms      530.92 ms
-day 10, part 2          1.24      809.45 ms     ±0.92%      808.43 ms      823.88 ms
+day 10, part 1          1.72      582.34 ms     ±1.63%      579.82 ms      603.52 ms
+day 10, part 2          1.12      891.03 ms     ±1.01%      887.68 ms      908.39 ms
 
 Name                     ips        average  deviation         median         99th %
-day 11, part 1          5.04      198.22 ms    ±25.37%      198.07 ms      359.01 ms
-day 11, part 2         59.40       16.84 ms    ±21.02%       15.84 ms       31.89 ms
+day 11, part 1          4.63      215.82 ms     ±1.91%      215.35 ms      225.97 ms
+day 11, part 2         44.72       22.36 ms    ±25.50%       19.92 ms       43.39 ms
 
 Name                     ips        average  deviation         median         99th %
-day 12, part 1        143.66      0.00696 s     ±7.15%      0.00677 s      0.00851 s
-day 12, part 2          0.47         2.13 s     ±2.17%         2.11 s         2.19 s
+day 12, part 1        122.37      0.00817 s     ±8.77%      0.00795 s       0.0108 s
+day 12, part 2          0.44         2.29 s     ±1.32%         2.28 s         2.32 s
 ```

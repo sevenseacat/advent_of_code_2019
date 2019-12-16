@@ -10,3 +10,22 @@ defmodule Advent do
     for head <- list, tail <- permutations(list -- [head], k - 1), do: [head | tail]
   end
 end
+
+defmodule Advent.Day do
+  defmacro __using__(no: day_no) do
+    quote do
+      def bench do
+        Benchee.run(
+          %{
+            "day #{unquote(day_no)}, part 1" => fn -> part1_verify() end,
+            "day #{unquote(day_no)}, part 2" => fn -> part2_verify() end
+          },
+          print: [benchmarking: false, configuration: false],
+          formatters: [{Benchee.Formatters.Console, comparison: false}]
+        )
+
+        :ok
+      end
+    end
+  end
+end

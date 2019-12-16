@@ -1,4 +1,6 @@
 defmodule Day10 do
+  use Advent.Day, no: 10
+
   def part1(set) do
     set
     |> Enum.map(fn coord -> {coord, seen_count(set, coord)} end)
@@ -125,15 +127,6 @@ defmodule Day10 do
     {set, row_no + 1}
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 10, part 1" => fn -> Advent.data(10) |> parse_input |> part1() end,
-        "day 10, part 2" => fn -> Advent.data(10) |> parse_input |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(10) |> parse_input |> part1()
+  def part2_verify, do: Advent.data(10) |> parse_input |> part2()
 end

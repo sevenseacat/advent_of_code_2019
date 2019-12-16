@@ -1,4 +1,6 @@
 defmodule Day1 do
+  use Advent.Day, no: 1
+
   def part1(input) do
     input
     |> Enum.map(&fuel_mass/1)
@@ -43,15 +45,6 @@ defmodule Day1 do
     if needed >= 0, do: fuel_mass_with_extra(needed, sum + needed), else: sum
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 1, part 1" => fn -> Advent.data(1) |> parse_input |> part1() end,
-        "day 1, part 2" => fn -> Advent.data(1) |> parse_input |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify(), do: Advent.data(1) |> parse_input |> part1()
+  def part2_verify(), do: Advent.data(1) |> parse_input |> part2()
 end

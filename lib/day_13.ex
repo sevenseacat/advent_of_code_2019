@@ -1,4 +1,6 @@
 defmodule Day13 do
+  use Advent.Day, no: 13
+
   def part1(input) do
     outputs = Intcode.new(input) |> Intcode.run() |> Intcode.outputs()
 
@@ -7,16 +9,6 @@ defmodule Day13 do
     |> Enum.count(fn [_, _, id] -> id == 2 end)
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 13, part 1" => fn ->
-          Advent.data(13) |> Intcode.from_string() |> part1()
-        end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(13) |> Intcode.from_string() |> part1()
+  def part2_verify, do: nil
 end

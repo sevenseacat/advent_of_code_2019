@@ -1,4 +1,6 @@
 defmodule Day2 do
+  use Advent.Day, no: 2
+
   def part1(input) do
     result =
       input
@@ -66,15 +68,6 @@ defmodule Day2 do
     |> :array.from_list()
   end
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 2, part 1" => fn -> Advent.data(2) |> parse_input |> part1() end,
-        "day 2, part 2" => fn -> Advent.data(2) |> parse_input |> part2() end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(2) |> parse_input |> part1()
+  def part2_verify, do: Advent.data(2) |> parse_input |> part2()
 end

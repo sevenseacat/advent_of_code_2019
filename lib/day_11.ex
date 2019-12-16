@@ -1,4 +1,6 @@
 defmodule Day11 do
+  use Advent.Day, no: 11
+
   def part1(intcode) do
     do_paint(intcode, {Map.new(), {0, 0}}, 0, :up)
     |> map_size()
@@ -6,24 +8,22 @@ defmodule Day11 do
 
   def part2(intcode) do
     do_paint(intcode, {Map.new(), {0, 0}}, 1, :up)
-    |> visualize()
+    |> visualize
   end
 
-  defp visualize(canvas) do
+  def visualize(canvas) do
     {{{min_x, _}, _}, {{max_x, _}, _}} = Enum.min_max_by(canvas, fn {{x, _}, _} -> x end)
     {{{_, min_y}, _}, {{_, max_y}, _}} = Enum.min_max_by(canvas, fn {{_, y}, _} -> y end)
 
     for y <- max_y..min_y, x <- min_x..max_x do
       Map.get(canvas, {x, y}, 0)
     end
+    |> Enum.map(&to_pixel/1)
     |> Enum.chunk_every(max_x - min_x + 1)
-    |> Enum.each(&display/1)
   end
 
-  defp display(line) do
-    line
-    |> Enum.map(&to_pixel/1)
-    |> IO.puts()
+  def display_image(image) do
+    Enum.each(image, &IO.puts/1)
   end
 
   defp to_pixel(1), do: "."
@@ -68,19 +68,6 @@ defmodule Day11 do
   defp move(:down, {x, y}), do: {x, y - 1}
   defp move(:right, {x, y}), do: {x + 1, y}
 
-  def bench do
-    Benchee.run(
-      %{
-        "day 11, part 1" => fn ->
-          Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part1()
-        end,
-        "day 11, part 2" => fn ->
-          Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part2()
-        end
-      },
-      Application.get_env(:advent, :benchee)
-    )
-
-    :ok
-  end
+  def part1_verify, do: Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part1()
+  def part2_verify, do: Advent.data(11) |> Intcode.from_string() |> Intcode.new() |> part2()
 end
