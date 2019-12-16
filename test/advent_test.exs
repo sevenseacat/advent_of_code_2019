@@ -1,5 +1,8 @@
 defmodule AdventTest do
   use ExUnit.Case
+
+  @moduletag timeout: :infinity
+
   doctest Day1
   doctest Day2
   doctest Day4
