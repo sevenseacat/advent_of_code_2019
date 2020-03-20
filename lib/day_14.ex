@@ -2,7 +2,8 @@ defmodule Day14 do
   use Advent.Day, no: 14
 
   def part1(input, required_count \\ 1, debug \\ false) do
-    {[{"ORE", count}], _extras} = do_part1(input, [{"FUEL", required_count}], "ORE", [], [], debug)
+    {[{"ORE", count}], _extras} =
+      do_part1(input, [{"FUEL", required_count}], "ORE", [], [], debug)
 
     count
   end
@@ -45,10 +46,12 @@ defmodule Day14 do
         IO.puts("Still to make: #{inspect(rest)}")
       end
 
-      {scale, created_ingredients} = scale_up_ingredients(ingredients, formula_count, needed_count)
+      {scale, created_ingredients} =
+        scale_up_ingredients(ingredients, formula_count, needed_count)
 
       extra_count = formula_count * scale - needed_count
       extras = if extra_count > 0, do: add_extras(extras, type, extra_count), else: extras
+
       if debug do
         IO.puts("EXTRAS: #{inspect(extras)}")
       end
@@ -60,11 +63,13 @@ defmodule Day14 do
           used,
           extras
         )
+
       do_part1(data, Enum.concat(needed, rest), base_type, used, extras, debug)
     end
   end
 
   defp do_part2(_, ore_left, _, fuel_made, _) when ore_left < 0, do: fuel_made - 1
+
   defp do_part2(input, ore_left, extras, fuel_made, debug) do
     {[{"ORE", ore_used}], extras} = do_part1(input, [{"FUEL", 1}], "ORE", [], extras, debug)
 
@@ -78,6 +83,7 @@ defmodule Day14 do
   # total amount of available ore.
   defp lcm(input, total_ore, ore_per_fuel, multiple \\ 1) do
     {_, ore, _} = calc_lcm(input, total_ore, ore_per_fuel, multiple)
+
     if ore > total_ore do
       # this multiple is too high, dial it back a notch.
       calc_lcm(input, total_ore, ore_per_fuel, multiple - 0.01)
@@ -124,9 +130,12 @@ defmodule Day14 do
 
   defp add_base_elements([], used), do: used
   defp add_base_elements(used, []), do: used
-  defp add_base_elements([{type, new_count}], [{type, old_count}]), do: [{type, old_count + new_count}]
 
-  defp scale_up_ingredients(ingredients, formula_count, needed_count) when formula_count >= needed_count do
+  defp add_base_elements([{type, new_count}], [{type, old_count}]),
+    do: [{type, old_count + new_count}]
+
+  defp scale_up_ingredients(ingredients, formula_count, needed_count)
+       when formula_count >= needed_count do
     # The recipe covers the cost, no scaling needed
     {1, ingredients}
   end

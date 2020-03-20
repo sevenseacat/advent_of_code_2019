@@ -5,23 +5,25 @@ defmodule Day15 do
   @moves %{1 => {0, 1}, 2 => {0, -1}, 3 => {-1, 0}, 4 => {1, 0}}
 
   def part1(input) do
-    program = input
-      |> Intcode.from_string
-      |> Intcode.new
+    program =
+      input
+      |> Intcode.from_string()
+      |> Intcode.new()
 
-    {graph, map} = do_part1([{{0,0}, program}], Graph.new, %{{0,0} => :start})
+    {graph, map} = do_part1([{{0, 0}, program}], Graph.new(), %{{0, 0} => :start})
     {win, _} = Enum.find(map, fn {_, key} -> key == :win end)
 
     # length is total number of positions in the path, movements is gaps between them
-    length(Graph.dijkstra(graph, {0,0}, win)) - 1
+    length(Graph.dijkstra(graph, {0, 0}, win)) - 1
   end
 
   def part2(input) do
-     program = input
-      |> Intcode.from_string
-      |> Intcode.new
+    program =
+      input
+      |> Intcode.from_string()
+      |> Intcode.new()
 
-    {graph, map} = do_part1([{{0,0}, program}], Graph.new, %{{0,0} => :start})
+    {graph, map} = do_part1([{{0, 0}, program}], Graph.new(), %{{0, 0} => :start})
     {win, _} = Enum.find(map, fn {_, key} -> key == :win end)
 
     spread_oxygen(graph, [win], 0)
@@ -31,53 +33,63 @@ defmodule Day15 do
     if Graph.info(graph).num_edges == 0 do
       time
     else
-      {graph, sources} = Enum.reduce(sources, {graph, []}, fn source, {graph, new_sources} ->
-        new_sources = Graph.neighbors(graph, source) ++ new_sources
-        graph = Graph.delete_vertex(graph, source)
-        {graph, new_sources}
-      end)
-      spread_oxygen(graph, sources, time+1)
+      {graph, sources} =
+        Enum.reduce(sources, {graph, []}, fn source, {graph, new_sources} ->
+          new_sources = Graph.neighbors(graph, source) ++ new_sources
+          graph = Graph.delete_vertex(graph, source)
+          {graph, new_sources}
+        end)
+
+      spread_oxygen(graph, sources, time + 1)
     end
   end
 
   defp do_part1([], graph, state), do: {graph, state}
-  defp do_part1([{position, program} | rest], graph, state) do
-    {state, graph, rest} = Enum.reduce @moves, {state, graph, rest}, fn {input, change}, {state, graph, rest} ->
-      {[output], new_program} = program
-      |> Intcode.add_input(input)
-      |> Intcode.run
-      |> Intcode.pop_outputs()
 
-      case output do
-        0 ->
-          # Wall.
-          {Map.put(state, new_position(position, change), :wall), graph, rest}
-        1 ->
-          # Space.
-          new_position = new_position(position, change)
-          if Map.has_key?(state, new_position) do
-            {state, graph, rest}
-          else
+  defp do_part1([{position, program} | rest], graph, state) do
+    {state, graph, rest} =
+      Enum.reduce(@moves, {state, graph, rest}, fn {input, change}, {state, graph, rest} ->
+        {[output], new_program} =
+          program
+          |> Intcode.add_input(input)
+          |> Intcode.run()
+          |> Intcode.pop_outputs()
+
+        case output do
+          0 ->
+            # Wall.
+            {Map.put(state, new_position(position, change), :wall), graph, rest}
+
+          1 ->
+            # Space.
+            new_position = new_position(position, change)
+
+            if Map.has_key?(state, new_position) do
+              {state, graph, rest}
+            else
+              {
+                Map.put(state, new_position, :space),
+                Graph.add_edge(graph, position, new_position),
+                [{new_position, new_program} | rest]
+              }
+            end
+
+          2 ->
+            # Found it!!
+            new_position = new_position(position, change)
+
             {
-              Map.put(state, new_position, :space),
+              Map.put(state, new_position, :win),
               Graph.add_edge(graph, position, new_position),
-              [{new_position, new_program} | rest]
+              rest
             }
-          end
-        2 ->
-          # Found it!!
-          new_position = new_position(position, change)
-          {
-            Map.put(state, new_position, :win),
-            Graph.add_edge(graph, position, new_position),
-            rest
-          }
-      end
-    end
+        end
+      end)
+
     do_part1(rest, graph, state)
   end
 
-  defp new_position({x1, y1}, {x2, y2}), do: {x1+x2, y1+y2}
+  defp new_position({x1, y1}, {x2, y2}), do: {x1 + x2, y1 + y2}
 
   def visualize(state, path \\ []) do
     grid_size = 22
@@ -85,9 +97,9 @@ defmodule Day15 do
 
     for y <- grid_size..-grid_size do
       for x <- -grid_size..grid_size do
-        to_tile Map.get(state, {x,y}), Enum.member?(path, {x,y})
+        to_tile(Map.get(state, {x, y}), Enum.member?(path, {x, y}))
       end
-      |> Enum.join
+      |> Enum.join()
     end
     |> Enum.each(&IO.puts/1)
   end
