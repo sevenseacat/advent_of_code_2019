@@ -23,7 +23,8 @@ defmodule Advent.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-      {:benchee, "~> 0.11", only: [:dev, :test]}
+      {:benchee, "~> 0.11", only: [:dev, :test]},
+      {:libgraph, "~> 0.7"}
     ]
   end
 end
