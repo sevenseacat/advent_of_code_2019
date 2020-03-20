@@ -42,4 +42,21 @@ defmodule Day14Test do
       assert 2_210_736 == Day14.part1(input)
     end
   end
+
+  describe "part2/1" do
+    test "sample input 3" do
+      input = Advent.test_data("day_14/sample_3") |> Day14.parse_input()
+      assert 82_892_753 == Day14.part2(input)
+    end
+
+    test "sample input 4" do
+      input = Advent.test_data("day_14/sample_4") |> Day14.parse_input()
+      assert 5_586_022 == Day14.part2(input)
+    end
+
+    test "sample input 5" do
+      input = Advent.test_data("day_14/sample_5") |> Day14.parse_input()
+      assert 460_664 == Day14.part2(input)
+    end
+  end
 end
