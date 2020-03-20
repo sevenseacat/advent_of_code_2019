@@ -12,6 +12,7 @@ defmodule AdventTest do
   doctest Day9
   doctest Day11
   doctest Day13
+  doctest Day14
 
   # Real solutions from the real problems with real input.
   describe "verification" do
@@ -81,5 +82,6 @@ defmodule AdventTest do
     test "day 12, part 2", do: assert(Day12.part2_verify() == {186_028, 231_614, 108_344})
     test "day 13, part 1", do: assert(Day13.part1_verify() == 315)
     test "day 13, part 2", do: assert(Day13.part2_verify() == {{-1, 0}, 16171})
+    test "day 14, part 1", do: assert(Day14.part1_verify() == 2556890)
   end
 end
