@@ -1,5 +1,5 @@
 defmodule IntcodeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   describe "run/1" do
     test "basic input 1 from day 2" do

@@ -1,5 +1,5 @@
 defmodule Day10Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Day10
 
   @sample_input_1 ".#..#\n.....\n#####\n....#\n...##"

@@ -1,5 +1,5 @@
 defmodule Day14Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   describe "parse_input/1" do
     test "can parse inputs and outputs" do

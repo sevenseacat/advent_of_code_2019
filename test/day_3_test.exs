@@ -1,5 +1,5 @@
 defmodule Day3Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Day3
 
   @sample_input_small [

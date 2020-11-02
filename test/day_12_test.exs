@@ -1,5 +1,5 @@
 defmodule Day12Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Day12.Moon
   doctest Day12
 
