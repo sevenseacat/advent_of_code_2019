@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [22.3.4, 23.1.1]
+        otp: [23.1.1]
         elixir: [1.11.1]
     steps:
     - uses: actions/checkout@v2
