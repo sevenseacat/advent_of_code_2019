@@ -1,7 +1,7 @@
 defmodule Day16 do
   use Advent.Day, no: 16
 
-  @base_pattern [0, 1, 0, -1]
+  alias Day16.PatternKeeper
 
   @doc """
   iex> Day16.part1("12345678", 1)
@@ -26,6 +26,8 @@ defmodule Day16 do
   "52432133"
   """
   def part1(input, phase) do
+    PatternKeeper.start_link()
+
     input
     |> parse_input
     |> do_part1(0, phase)
@@ -44,8 +46,7 @@ defmodule Day16 do
   defp do_digit(input, _, digit) when digit == length(input), do: []
 
   defp do_digit(input, phase, digit) do
-    [h | t] = @base_pattern |> Enum.map(fn i -> List.duplicate(i, digit + 1) end) |> Enum.concat()
-    pattern = t ++ [h]
+    pattern = PatternKeeper.get_pattern_for_digit(digit)
 
     val =
       input
@@ -72,4 +73,36 @@ defmodule Day16 do
 
   def part1_verify, do: Advent.data(16) |> Day16.part1(100)
   def part2_verify, do: nil
+end
+
+defmodule Day16.PatternKeeper do
+  use GenServer
+
+  @base_pattern [0, 1, 0, -1]
+
+  # Public interface
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+  end
+
+  def get_pattern_for_digit(digit) do
+    GenServer.call(__MODULE__, {:get_pattern_for_digit, digit})
+  end
+
+  # Private callbacks
+  def init(:ok), do: {:ok, Map.new()}
+
+  def handle_call({:get_pattern_for_digit, digit}, _from, state) do
+    state =
+      if Map.has_key?(state, digit) do
+        state
+      else
+        [h | t] =
+          @base_pattern |> Enum.map(fn i -> List.duplicate(i, digit + 1) end) |> Enum.concat()
+
+        Map.put(state, digit, t ++ [h])
+      end
+
+    {:reply, Map.get(state, digit), state}
+  end
 end
